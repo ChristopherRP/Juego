@@ -5,17 +5,45 @@
  */
 package Presentación;
 
+import Util.GameObject;
+import Util.Render;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Christopher Reyes
  */
 public class frmJuego extends javax.swing.JFrame {
 
+    ArrayList<Render> ImageObjects;
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g); //To change body of generated methods, choose Tools | Templates.
+        for( int i = 0 ; i < ImageObjects.size() ;  i++){
+            g.drawImage( ImageObjects.get(i).getImage(), 0, 0, rootPane);
+        }
+    }
+    
+    private void initGame(){
+        
+            //System.out.println(getClass().getResource("../Files/horca.jpg").getFile());            
+            ImageObjects.add( new Render("horca.jpg"));
+        
+    }   
+    
     /**
      * Creates new form frmJuego
      */
+    
     public frmJuego() {
+        ImageObjects = new ArrayList<>();
         initComponents();
+        
+        initGame();
     }
 
     /**
@@ -33,11 +61,11 @@ public class frmJuego extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 776, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 515, Short.MAX_VALUE)
         );
 
         pack();
