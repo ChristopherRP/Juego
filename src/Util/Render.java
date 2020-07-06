@@ -37,18 +37,20 @@ public class Render{
      * @param path 
      * ruta de la imagen
      */
-    public Render(String path) {
+    public  Render(String path) {
         
         try { 
              //this.defaultImg = ImageIO.read("/Files/gamecontroller_23721.png");       
              img = loadImage(path);
             // dimension = new Vector2(img.getWidth(), img.getHeight());
+        
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e +" Error al cargar "+ path);
-        }        
+            JOptionPane.showMessageDialog(null, e +" \nError al cargar "+ path);
+        }  
     }
     /**
      * devuelve una una imagen del tipoBufferedImage
+     * esta deve estar incluida en el paquete Files, usa un path relativo
      * @param path
      * direccion de la imagen
      * @return 
