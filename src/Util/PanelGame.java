@@ -7,6 +7,7 @@ package Util;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -16,30 +17,43 @@ import javax.swing.JPanel;
  */
 public class PanelGame extends JPanel{
 
+    private BufferedImage background;
     public PanelGame() {
         ImageObjects = new ArrayList<>();
-        ImageObjects.add( new Render("horca.jpg"));
-        ImageObjects.add( new Render("font.png"));
+        drawImage("font.png");
+        
     }
-   
+    /**
+     * dibuja una imagen en pantalla
+     * @param name 
+     * nombre de la imagen que se quiere dibujar
+     */
+    public void drawImage(String name){
+        ImageObjects.add( new Render(name));       
+    }
     
-   
+    public void set_Background(String name){
+        background = new Render(name).getImage();       
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
-        g.drawRoundRect(100, 100, 100, 2, 199, 199);
-        System.out.println(ImageObjects.size());
+        //g.drawRoundRect(100, 100, 100, 2, 199, 199);
+         if(background!= null){
+            g.drawImage(background, 0, 0, null);
+        }
+        
+        //System.out.println(ImageObjects.size());
         for( int i = 0; i < ImageObjects.size(); i++){
             g.drawImage(ImageObjects.get(i).getImage() , 10, 10, null);
         }
-        g.drawOval(20, 2, 2, 2);
+       
     }
     
-     ArrayList<Render> ImageObjects;
-     
-     private void startComponents(){  
-        
+     ArrayList<Render> ImageObjects;     
+     private void startComponents(){         
             
     }   
     
