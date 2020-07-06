@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
 public class frmJuego extends javax.swing.JFrame implements Runnable{
 
     ArrayList<Render> ImageObjects;
- 
+    private boolean Ingame;
     
     /**
      * Creates new form frmJuego
@@ -31,9 +31,10 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
     public frmJuego() {
         
         initComponents();
+        Ingame = true;
         ImageObjects = new ArrayList<>();   
         start();
-        panelGame2.set_Background("horca.jpg");       
+        panelGame2.set_Background("horca.jpg"); 
         
     }
 
@@ -47,16 +48,25 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        canvas1 = new java.awt.Canvas();
         panelGame2 = new Util.PanelGame();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 153));
         jPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
-
-        canvas1.setBackground(new java.awt.Color(255, 255, 255));
-        canvas1.setMinimumSize(new java.awt.Dimension(600, 300));
 
         javax.swing.GroupLayout panelGame2Layout = new javax.swing.GroupLayout(panelGame2);
         panelGame2.setLayout(panelGame2Layout);
@@ -76,21 +86,14 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelGame2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(panelGame2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(panelGame2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -109,6 +112,26 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        Ingame = false;
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Ingame = false;
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+        System.out.println(evt.getKeyChar());
+        if (evt.getKeyChar() == 'a') {
+            posx-=10;
+            System.out.println("moviendo a la izquierda");
+            
+        }
+        
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -146,7 +169,6 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Canvas canvas1;
     private javax.swing.JPanel jPanel1;
     private Util.PanelGame panelGame2;
     // End of variables declaration//GEN-END:variables
@@ -154,18 +176,12 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
     
     @Override
     public void run() {
-        int cont = 0;        while (true) {   
-           
-            if (cont <60) {
-                cont++;   
-                System.out.println("Ha pasado un segundo");                
-            }else{
-                cont=0;
-            }
+        
+        while (Ingame) {             
             this.update_canvas();
             this.draw();
-            
-        }        
+        }    
+        stop();
     }
     private Thread hilo;    
     public void start(){
@@ -173,32 +189,25 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
         hilo = new Thread(this);
         hilo.start();       
     }    
-    private void stop() throws InterruptedException{
-        JOptionPane.showMessageDialog(null, "El hilo a dejado de funcionar");
-        hilo.join();
+    private void stop() {
+        JOptionPane.showMessageDialog(null, "El hilo se a parado");   
+        Ingame = false;
+        try {
+            hilo.join();
+        } catch (InterruptedException ex) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error \n"+ ex);
+        }
     }
     private void startComponents(){  
-        ImageObjects.add( new Render("horca.jpg"));
-        ImageObjects.add( new Render("font.png"));
+        panelGame2.drawImage("font.png");
             
     }
     private BufferStrategy bs;
-    private void draw(){
-        bs = canvas1.getBufferStrategy();
-        if (bs == null) {
-            canvas1.createBufferStrategy(3);
-            
-        }
-        
-        Graphics g = canvas1.getGraphics();
-        System.out.println(ImageObjects.size());
-        for( int i = 0; i < ImageObjects.size(); i++){
-            g.drawImage(ImageObjects.get(i).getImage() , 10, 10, null);
-        }
-        g.drawOval(20, 2, 2, 2);
-        
+    private void draw(){ 
     }
+    
+    private int posx=0, posy=0 ;
     private void update_canvas(){
-        
+        panelGame2.setPosition(0, posx, posy);
     }
 }

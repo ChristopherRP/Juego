@@ -23,6 +23,12 @@ public class Vector2 {
         this.y = y;
     }
 
+    public float getX(){
+        return x;
+    }
+    public float getY(){
+        return y;
+    }
     /**
      * Vector que devuelve la posicion y negativa
      *

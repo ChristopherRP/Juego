@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 public class Render{
     private BufferedImage img;
     private Vector2 dimension;
+    private Vector2 posicion;
     
     public Render(){  
         try {
@@ -30,6 +31,7 @@ public class Render{
         }
         img = null;
         dimension = null;
+        posicion = Vector2.zero();
     }
     /**
      * carga una imagen para el objeto
@@ -38,7 +40,9 @@ public class Render{
      * ruta de la imagen
      */
     public  Render(String path) {
-        
+        img = null;
+        dimension = null;
+        posicion = Vector2.zero();
         try { 
              //this.defaultImg = ImageIO.read("/Files/gamecontroller_23721.png");       
              img = loadImage(path);
@@ -69,4 +73,13 @@ public class Render{
             return img;
               
     }
+    
+    public Vector2 getPosicion(){
+        return posicion;
+    }
+    
+    public void setPosicion(Vector2 posicion){
+        this.posicion = posicion;
+    }
+    
 }

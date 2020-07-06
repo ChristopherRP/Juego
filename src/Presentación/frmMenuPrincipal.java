@@ -82,10 +82,9 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        //llamos al formulario juego
-        frmJuego frmjuego=new frmJuego();
-        frmjuego.setVisible(true);
-        frmjuego.setLocationRelativeTo(null);
+        //llamos al formulario juego        
+        new frmJuego().setVisible(true);// se cambio las  lineas de codigo por una mas corta, ya que no es necesario crea un 
+                                        // objeto para poder mostralo en pantalla, solo se invoca un nuevo objeto y se hace visible
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
