@@ -1,9 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Presentación;
+
+import Archivador.Archivadorpalabra;
+import Logica.Palabras;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -11,11 +13,13 @@ package Presentación;
  */
 public class frmIngresoPalabra extends javax.swing.JFrame {
 
+    private DefaultTableModel tablaModelo;
     /**
      * Creates new form frmIngresoPalabra
      */
     public frmIngresoPalabra() {
         initComponents();
+         tablaModelo = (DefaultTableModel)TablaPalabras.getModel();
     }
 
     /**
@@ -35,16 +39,21 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtPalabra = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtArea = new javax.swing.JTextArea();
+        txtAreaDescripcion = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        TablaPalabras = new javax.swing.JTable();
+        btnEliminar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 255));
 
@@ -68,25 +77,37 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setText("Palabra:");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel3.setText("Descripción:");
 
-        txtArea.setColumns(20);
-        txtArea.setRows(5);
-        jScrollPane1.setViewportView(txtArea);
+        txtAreaDescripcion.setColumns(20);
+        txtAreaDescripcion.setRows(5);
+        jScrollPane1.setViewportView(txtAreaDescripcion);
 
         btnGuardar.setBackground(new java.awt.Color(204, 255, 204));
         btnGuardar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/Guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setBackground(new java.awt.Color(51, 102, 255));
         btnCancelar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -105,7 +126,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
@@ -133,7 +154,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Ingreso de palabra", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaPalabras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -144,17 +165,32 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
                 "Palabra", "Descripción"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        TablaPalabras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaPalabrasMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TablaPalabras);
 
-        jButton1.setBackground(new java.awt.Color(255, 102, 102));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/eliminar.png"))); // NOI18N
-        jButton1.setText("Eliminar");
+        btnEliminar.setBackground(new java.awt.Color(255, 102, 102));
+        btnEliminar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/eliminar.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(102, 255, 255));
-        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/modificar.png"))); // NOI18N
-        jButton2.setText("Modificar");
+        btnModificar.setBackground(new java.awt.Color(102, 255, 255));
+        btnModificar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/modificar.png"))); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -163,11 +199,11 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 896, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnModificar)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -176,8 +212,8 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnEliminar)
+                    .addComponent(btnModificar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -206,6 +242,92 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //se carga el array en la ttabla
+        //se Activan los botones
+        llenarTabla();
+        activarBotones();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+         if(txtPalabra.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Debe Ingresar Una Palabra");
+            txtPalabra.requestFocus();
+            return;
+        }
+         if(txtAreaDescripcion.getText().trim().equals("")){
+             ///se crea una variable para ver si quiere poner la descripción
+             int Respuesta=JOptionPane.showConfirmDialog(null,"Desea Dejar La Descripción En Blanco","Consulta De Descripción",JOptionPane.YES_NO_OPTION);
+            
+            
+             if (Respuesta==0) {
+                 txtAreaDescripcion.setText(" ");
+             }
+             if (Respuesta==1) {
+                 txtAreaDescripcion.requestFocus();
+             }
+            return;
+        }
+
+        
+
+        Palabras palabras = new Palabras(txtPalabra.getText(),txtAreaDescripcion.getText());
+        Archivadorpalabra.agregarPalabra(palabras); //Aquí está llamando al Archivador
+
+        llenarTabla(); //LLama al método llenarTabla()
+        txtPalabra.setText("");
+        txtPalabra.requestFocus();
+        txtAreaDescripcion.setText("");
+        txtAreaDescripcion.requestFocus();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+       String modificarPalabra /*NombreCuidad*/ = txtPalabra.getText();
+       String modificarDescripcion=txtAreaDescripcion.getText();
+        int posicion = Archivadorpalabra.posicionPalabra(modificarPalabra);
+        Palabras palabras =
+                new Palabras(modificarPalabra,modificarDescripcion);
+        
+        Archivadorpalabra.modificarPalabra(posicion,palabras);
+        llenarTabla(); 
+        Limpiar();
+        activarBotones();
+        txtPalabra.setEnabled(true);
+        Limpiar();
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = TablaPalabras.getSelectedRow();
+        if(fila != -1){
+            String Eliminar1Palabra /*Nombre Ciudad*/ = (String)TablaPalabras.getValueAt(fila,0);
+            Archivadorpalabra.eliminarPalabra(Eliminar1Palabra);
+            llenarTabla();
+            Limpiar();
+            txtPalabra.setEnabled(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el artículo a eliminar");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+          activarBotones();
+        Limpiar();
+        txtPalabra.setEnabled(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void TablaPalabrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaPalabrasMouseClicked
+         if(evt.getClickCount() == 2){
+            int index = TablaPalabras.getSelectedRow();
+            desactivarBotones();
+            txtPalabra.setEnabled(false);
+            txtAreaDescripcion.setEnabled(false);
+            txtPalabra.setText((String) TablaPalabras.getValueAt(index,0));
+            txtAreaDescripcion.setText((String) TablaPalabras.getValueAt(index,1));
+           
+        }
+    }//GEN-LAST:event_TablaPalabrasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -242,11 +364,47 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
         });
     }
 
+    
+         private void desactivarBotones() {
+        btnGuardar.setEnabled(false);
+        btnEliminar.setEnabled(true);
+        btnModificar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+    }
+     
+        private void llenarTabla() {
+        //Limpia todas las filas de la tabla
+        tablaModelo.setRowCount(0);
+        Object[] fila = new Object[2];
+        ArrayList<Palabras> lista = Archivadorpalabra.getArrayPalabras();
+        for (Palabras palabras : lista) {
+            fila[0] = palabras.getPalabra();
+            fila[1] = palabras.getDecripcion();            
+            //agrega el arreglo a la fila
+            tablaModelo.addRow(fila);
+        }
+    }
+    private void activarBotones() {
+        btnGuardar.setEnabled(true);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+    }
+    
+    private void Limpiar(){
+        txtPalabra.setText("");
+        txtAreaDescripcion.setText("");
+        activarBotones();
+    }
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaPalabras;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -256,8 +414,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea txtArea;
+    private javax.swing.JTextArea txtAreaDescripcion;
     private javax.swing.JTextField txtPalabra;
     // End of variables declaration//GEN-END:variables
 }
