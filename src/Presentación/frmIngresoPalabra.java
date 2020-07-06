@@ -254,7 +254,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
         }
         
 
-         JOptionPane.showMessageDialog(null,"El Nuevo Registro Fue Exitoso");
+         JOptionPane.showMessageDialog(null,"La palabra agregada ha sido exitosamente");
         Palabras palabras = new Palabras(txtPalabra.getText(),txtAreaDescripcion.getText());
         Archivadorpalabra.agregarPalabra(palabras); //Aquí está llamando al Archivador
 
@@ -283,12 +283,25 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int fila = TablaPalabras.getSelectedRow();
+        
+        /*if (Respuesta==0) {
+            
+        }*/
         if(fila != -1){
             String Eliminar1Palabra /*Nombre Ciudad*/ = (String)TablaPalabras.getValueAt(fila,0);
+        
+            //se crea para saber si de verdad quiere eliminar la palabra
+            int Respuesta=JOptionPane.showConfirmDialog(null,"Esta seguro de eliminar esta palabra del juego","ELIMINAR PALABRA",JOptionPane.YES_NO_OPTION);
+        
+            if (Respuesta==0) {
             Archivadorpalabra.eliminarPalabra(Eliminar1Palabra);
             llenarTabla();
             Limpiar();
-            txtPalabra.setEnabled(true);
+            txtPalabra.setEnabled(true);    
+            
+            JOptionPane.showMessageDialog(this,"Se elmino la palabra");
+            }
+            
         }
         else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar el artículo a eliminar");
@@ -370,7 +383,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
     }
     private void activarBotones() {
         btnGuardar.setEnabled(true);
-        btnEliminar.setEnabled(false);
+        btnEliminar.setEnabled(true);
         btnModificar.setEnabled(false);
         btnCancelar.setEnabled(false);
     }
