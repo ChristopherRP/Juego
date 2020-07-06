@@ -9,11 +9,13 @@ import Util.GameObject;
 import Util.Render;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.input.KeyCode;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,10 +23,8 @@ import javax.swing.JOptionPane;
  * @author Christopher Reyes
  */
 public class frmJuego extends javax.swing.JFrame implements Runnable{
-
     ArrayList<Render> ImageObjects;
-    private boolean Ingame;
-    
+    private boolean Ingame;    
     /**
      * Creates new form frmJuego
      */    
@@ -37,7 +37,6 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
         panelGame2.set_Background("horca.jpg"); 
         
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,7 +46,6 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         panelGame2 = new Util.PanelGame();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -65,35 +63,21 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(153, 255, 153));
-        jPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
+        panelGame2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                panelGame2KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelGame2Layout = new javax.swing.GroupLayout(panelGame2);
         panelGame2.setLayout(panelGame2Layout);
         panelGame2Layout.setHorizontalGroup(
             panelGame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 616, Short.MAX_VALUE)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
         panelGame2Layout.setVerticalGroup(
             panelGame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 508, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelGame2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(panelGame2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 529, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -102,12 +86,15 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelGame2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelGame2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -124,14 +111,35 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         // TODO add your handling code here:
-        System.out.println(evt.getKeyChar());
-        if (evt.getKeyChar() == 'a') {
-            posx-=10;
-            System.out.println("moviendo a la izquierda");
+        //System.out.println(evt.getKeyChar());
+        if (evt.getKeyCode() == KeyEvent.VK_A  || evt.getKeyCode() == KeyEvent.VK_LEFT) {
+            posx -=5;
+            //System.out.println("moviendo a la izquierda");
+            
+        }else if (evt.getKeyCode() == KeyEvent.VK_D  || evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+            posx +=5;
+           // System.out.println("moviendo a la derecha");
+            
+        }else if (evt.getKeyCode() == KeyEvent.VK_W  || evt.getKeyCode() == KeyEvent.VK_UP) {
+            posy -=5;
+           // System.out.println("moviendo a la derecha");
+            
+        }else if (evt.getKeyCode() == KeyEvent.VK_S  || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            posy +=5;
+           // System.out.println("moviendo a la derecha");
+            
+        }else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+           Ingame = false;
+           
+           // System.out.println("moviendo a la derecha");
             
         }
         
     }//GEN-LAST:event_formKeyPressed
+
+    private void panelGame2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_panelGame2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_panelGame2KeyPressed
 
     /**
      * @param args the command line arguments
@@ -169,25 +177,27 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private Util.PanelGame panelGame2;
     // End of variables declaration//GEN-END:variables
-
-    
+   
     @Override
     public void run() {
         
         while (Ingame) {             
-            this.update_canvas();
-            this.draw();
+            this.update_canvas();            
         }    
         stop();
+        this.dispose();
+        cerrarForm();
+    }
+    private void cerrarForm(){
+        this.dispose();
     }
     private Thread hilo;    
     public void start(){
         startComponents();        
         hilo = new Thread(this);
-        hilo.start();       
+        hilo.start();     
     }    
     private void stop() {
         JOptionPane.showMessageDialog(null, "El hilo se a parado");   
@@ -197,17 +207,17 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
         } catch (InterruptedException ex) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error \n"+ ex);
         }
+        dispose();
     }
     private void startComponents(){  
         panelGame2.drawImage("font.png");
             
-    }
-    private BufferStrategy bs;
-    private void draw(){ 
-    }
-    
+    }     
     private int posx=0, posy=0 ;
+    /**
+     * Esta funcion actualiza el panel, esto para que se puedean visualizar los cambios
+     */
     private void update_canvas(){
-        panelGame2.setPosition(0, posx, posy);
+        panelGame2.setPosition(0, posx, posy);       
     }
 }

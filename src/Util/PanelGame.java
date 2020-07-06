@@ -7,6 +7,8 @@ package Util;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -15,12 +17,11 @@ import javax.swing.JPanel;
  *
  * @author William
  */
-public class PanelGame extends JPanel{
+public class PanelGame extends JPanel implements ActionListener{
 
     private BufferedImage background;
     public PanelGame() {
-        ImageObjects = new ArrayList<>(); 
-        
+        ImageObjects = new ArrayList<>();         
     }
     /**
      * dibuja una imagen en pantalla
@@ -29,7 +30,15 @@ public class PanelGame extends JPanel{
      */
     public void setPosition(int i, float x, float y){
         ImageObjects.get(i).setPosicion(new Vector2(x,y));
+        this.repaint();
     }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        update_world();
+    }    
+    public void update_world(){
+        
+    }    
     public void drawImage(String name){
         ImageObjects.add( new Render(name));       
     } 
