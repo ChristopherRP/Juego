@@ -62,7 +62,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(742, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +121,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(11, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -131,7 +131,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
@@ -169,7 +169,16 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             new String [] {
                 "Palabra", "Descripción"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaPalabras.setFocusCycleRoot(true);
         TablaPalabras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaPalabrasMouseClicked(evt);
@@ -219,16 +228,16 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -318,10 +327,12 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
          if(evt.getClickCount() == 2){
             int index = TablaPalabras.getSelectedRow();
             desactivarBotones();
-            txtPalabra.setEnabled(false);
-            txtAreaDescripcion.setEnabled(false);
+            txtPalabra.setEnabled(true);
+            txtAreaDescripcion.setEnabled(true);
+            jTabbedPane1.requestFocus();
+            txtPalabra.requestFocus();
             txtPalabra.setText((String) TablaPalabras.getValueAt(index,0));
-            txtAreaDescripcion.setText((String) TablaPalabras.getValueAt(index,0));
+            txtAreaDescripcion.setText((String) TablaPalabras.getValueAt(index,1));
            
         }
     }//GEN-LAST:event_TablaPalabrasMouseClicked
@@ -367,6 +378,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
         btnEliminar.setEnabled(true);
         btnModificar.setEnabled(true);
         btnCancelar.setEnabled(true);
+        
     }
      
         private void llenarTabla() {
