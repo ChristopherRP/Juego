@@ -1,6 +1,8 @@
 
 package Presentación;
 
+import Util.Word;
+
 /**
  *
  * @author Christopher Reyes
@@ -12,6 +14,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
      */
     public frmMenuPrincipal() {
         initComponents();
+        new frmJuego().setVisible(true);
+        
+        
+        
     }
 
     /**
@@ -83,7 +89,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         //llamos al formulario juego        
-        new frmJuego().setVisible(true);// se cambio las  lineas de codigo por una mas corta, ya que no es necesario crea un 
+        //new frmJuego().setVisible(true);// se cambio las  lineas de codigo por una mas corta, ya que no es necesario crea un 
                                         // objeto para poder mostralo en pantalla, solo se invoca un nuevo objeto y se hace visible
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

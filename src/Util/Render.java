@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author William
  */
 public class Render{
-    private BufferedImage img;
+    public BufferedImage img;
     private Vector2 dimension;
     private Vector2 posicion;
     
@@ -52,6 +52,14 @@ public class Render{
             JOptionPane.showMessageDialog(null, e +" \nError al cargar "+ path);
         }  
     }
+    public  Render(BufferedImage image) {
+        
+        dimension = Vector2.zero();
+        posicion = Vector2.zero();        
+        img = image;
+            
+    }
+    
     /**
      * devuelve una una imagen del tipoBufferedImage
      * esta deve estar incluida en el paquete Files, usa un path relativo
@@ -59,7 +67,7 @@ public class Render{
      * direccion de la imagen
      * @return 
      */
-    private BufferedImage loadImage(String path) throws IOException {       
+    public BufferedImage loadImage(String path) throws IOException {       
 //            this.defaultImg = ImageIO.read(new File("Files/gamecontroller_23721.png"));       
             //URL t = getClass().getResource(path);
             //System.out.println(t.getPath());
@@ -68,8 +76,8 @@ public class Render{
         
     }    
     private BufferedImage defaultImg;
-    public BufferedImage getImage(){
-        
+    
+    public BufferedImage getImage(){        
             return img;
               
     }

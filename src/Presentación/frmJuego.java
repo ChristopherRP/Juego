@@ -7,6 +7,7 @@ package Presentación;
 
 import Util.GameObject;
 import Util.Render;
+import Util.Word;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -35,6 +36,7 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
         ImageObjects = new ArrayList<>();   
         start();
         panelGame2.set_Background("horca.jpg"); 
+        
         
     }
     /**
@@ -210,7 +212,12 @@ public class frmJuego extends javax.swing.JFrame implements Runnable{
         dispose();
     }
     private void startComponents(){  
-        panelGame2.drawImage("font.png");
+        //panelGame2.drawImage("font.png");
+       // panelGame2.drawImage("font.png");
+        //panelGame2.drawImage("cancelar.png");
+        
+        panelGame2.drawImage( new Word().getLetter(31).img);
+        //panelGame2.drawImage( panelGame2.get_Background());
             
     }     
     private int posx=0, posy=0 ;

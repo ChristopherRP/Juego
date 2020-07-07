@@ -45,8 +45,15 @@ public class PanelGame extends JPanel implements ActionListener{
     public void drawImage(String name, float x, float y ){
         ImageObjects.add( new Render(name));       
     } 
+    public void drawImage(BufferedImage img ){
+        ImageObjects.add(  new Render(img) );       
+    } 
+    
     public void set_Background(String name){
         background = new Render(name).getImage();       
+    }
+    public BufferedImage get_Background(){
+        return background;
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -54,15 +61,20 @@ public class PanelGame extends JPanel implements ActionListener{
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
         //g.drawRoundRect(100, 100, 100, 2, 199, 199);
          if(background!= null){
-            g.drawImage(background, 0, 0, null);
+            g.drawImage(background, 100, 30, null);
         }        
-       
+         //g.drawImage(ImageObjects.get(0).getImage().getSubimage(100, 100, 10, 10) ,(int) ImageObjects.get(0).getPosicion().x , (int)ImageObjects.get(0).getPosicion().y, null);
+        
         for( int i = 0; i < ImageObjects.size(); i++){
             g.drawImage(ImageObjects.get(i).getImage() ,(int) ImageObjects.get(i).getPosicion().x , (int)ImageObjects.get(i).getPosicion().y, null);
-            
+             
         }       
     }    
      ArrayList<Render> ImageObjects;     
+
+    public void add(Render letter) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
        
     
 }
