@@ -252,18 +252,18 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
          if(txtPalabra.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Debe Ingresar Una Palabra");
+            JOptionPane.showMessageDialog(this, "Debe Ingresar Una Palabra");
             txtPalabra.requestFocus();
             return;
         }
          if(txtAreaDescripcion.getText().trim().equals(" ")){
-            JOptionPane.showMessageDialog(null, "Debe Ingresar Una Palabra");
+            JOptionPane.showMessageDialog(this, "Debe Ingresar Una Palabra");
             
             return;
         }
         
 
-         JOptionPane.showMessageDialog(null,"La palabra agregada ha sido exitosamente");
+         JOptionPane.showMessageDialog(this,"La palabra agregada ha sido exitosamente");
         Palabras palabras = new Palabras(txtPalabra.getText(),txtAreaDescripcion.getText());
         Archivadorpalabra.agregarPalabra(palabras); //Aquí está llamando al Archivador
 
@@ -280,6 +280,9 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
        String modificarDescripcion=txtAreaDescripcion.getText();
         int posicion = Archivadorpalabra.posicionPalabra(modificarPalabra);
        
+        int Repuesta=JOptionPane.showConfirmDialog(this,"Esta seguro de modificar esta palabra","Modificar",JOptionPane.YES_NO_OPTION);
+        if (Repuesta==0) {
+            
         Palabras palabras = new Palabras(modificarPalabra,modificarDescripcion);
         
         Archivadorpalabra.modificarPalabra(posicion,palabras);
@@ -287,15 +290,19 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
         Limpiar();
         desactivarBotones();
         txtPalabra.setEnabled(true);
-        Limpiar();
+        Limpiar();    
+        JOptionPane.showMessageDialog(this,"Se actualizon la palabra y descripción");
+        }
+        if (Repuesta==1) {
+            Limpiar();
+            JOptionPane.showMessageDialog(this,"No se modifico ni un registro");
+        }
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int fila = TablaPalabras.getSelectedRow();
         
-        /*if (Respuesta==0) {
-            
-        }*/
         if(fila != -1){
             String Eliminar1Palabra /*Nombre Ciudad*/ = (String)TablaPalabras.getValueAt(fila,0);
         
