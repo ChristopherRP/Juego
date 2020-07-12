@@ -337,6 +337,7 @@ public class frmIngresoPalabra extends javax.swing.JFrame {
             txtPalabra.setEnabled(true);
             txtAreaDescripcion.setEnabled(true);
             jTabbedPane1.requestFocus();
+            jTabbedPane1.setSelectedIndex(0);// dirige a la primera pagina el JtabbedPane, para poder editar la palabra seleccionada
             txtPalabra.requestFocus();
             txtPalabra.setText((String) TablaPalabras.getValueAt(index,0));
             txtAreaDescripcion.setText((String) TablaPalabras.getValueAt(index,1));
